@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gesture Recording Interface</title>
+<style>
+  body, h3 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+  }
+  .desktop {
+    display: none; /* 默认隐藏所有桌面 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+  }
+  .desktop.active {
+    display: flex; /* 显示活动桌面 */
+  }
+  .button {
+    background-color: #005A9C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .button:hover {
+    background-color: #007ACC;
+  }
+  .play-button {
+    padding: 5px 10px;
+    background-color: #28A745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .play-button:hover {
+    background-color: #218838;
+  }
+  .delete-button {
+    padding: 5px 10px;
+    background-color: #FF4136;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .delete-button:hover {
+    background-color: #FF851B;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+  }
+  ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+  }
+  .edit-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 60%;
+  }
+  input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px); /* Adjust for padding and border */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 桌面 1 -->
+  <div class="desktop active" id="desktop-1">
+    <h3>Record movements web page</h3>
+    <button class="button" onclick="showDesktop('desktop-2')">Record</button>
+    <button class="button" onclick="showDesktop('desktop-4')">Edit</button>
+  </div>
+
+  <!-- 桌面 2 -->
+  <div class="desktop" id="desktop-2">
+    <h3>Recording movements web page</h3>
+    <button class="button" onclick="showDesktop('desktop-1')">Cancel</button>
+    <button class="button" onclick="showDesktop('desktop-3')">Save</button>
+  </div>
+
+  <!-- 桌面 3 -->
+  <div class="desktop" id="desktop-3">
+    <h3>Name movements web page</h3>
+    <input type="text" value="Wave hands">
+    <button class="button" onclick="showDesktop('desktop-1')">Confirm</button>
+  </div>
+<!-- 桌面 4 -->
+  <div class="desktop" id="desktop-4">
+    <h3>Edit (rename and delete)</h3>
+    <ul id="movementsList">
+      <!-- List Item -->
+      <li>
+        <input class="edit-input" value="Wave hands" />
+        <button class="play-button">Play</button>
+        <button class="delete-button" onclick="confirmDelete(this.parentElement)">-</button>
+      </li>
+      <li>
+        <input class="edit-input" value="Shake hands" />
+        <button class="play-button">Play</button>
+        <button class="delete-button" onclick="confirmDelete(this.parentElement)">-</button>
+      </li>
+      <li>
+        <input class="edit-input" value="OK" />
+        <button class="play-button">Play</button>
+        <button class="delete-button" onclick="confirmDelete(this.parentElement)">-</button>
+      </li>
+      <li>
+        <input class="edit-input" value="Victory" />
+        <button class="play-button">Play</button>
+        <button class="delete-button" onclick="confirmDelete(this.parentElement)">-</button>
+      </li>
+    </ul>
+    <button class="button" onclick="showDesktop('desktop-1')">Confirm</button>
+  </div>
+</div>
+<script>
+  function showDesktop(desktopId) {
+    // 隐藏所有桌面
+    document.querySelectorAll('.desktop').forEach(function(desktop) {
+      desktop.classList.remove('active');
+    });
+  
+    // 显示指定的桌面
+    document.getElementById(desktopId).classList.add('active');
+  }
+  
+  function confirmDelete(listItem) {
+    if (confirm("Are you sure you want to delete this movement?")) {
+      listItem.remove();
+    }
+  }
+  
+  // 初始化，设置默认显示的桌面
+  document.addEventListener('DOMContentLoaded', function() {
+    showDesktop('desktop-1'); // 默认显示桌面 1
+  });
+  </script>
+  </body>
+  </html>
